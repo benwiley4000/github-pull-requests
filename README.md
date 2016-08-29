@@ -4,7 +4,7 @@ A JavaScript function that fetches pull requests initiated by a given GitHub use
 
 ### API:
 
-`getPullRequests (username[, status[, authOptions]])`
+`getPullRequests (username[, state[, authOptions]])`
 
 * `username`: any valid GitHub username
 * `state` (optional): filters results - "all" (default), "opened", "closed" or "merged" (subset of "closed")
