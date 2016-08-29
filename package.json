@@ -1,0 +1,20 @@
+{
+  "name": "git-merged-pull-requests",
+  "version": "0.1.0",
+  "description": "Fetches all merged pull requests initiated by a given GitHub user",
+  "main": "gitMergedPullRequests.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "git",
+    "pull",
+    "request",
+    "merge",
+    "merged",
+    "api",
+    "fetch"
+  ],
+  "author": "Ben Wiley",
+  "license": "MIT"
+}
