@@ -1,5 +1,5 @@
-/* Using the GitHub API, fetches data for public pull requests
- * by a given user that have been merged as requested.
+/* Using the GitHub API, fetches data for public pull
+ * requests by a given user.
  *
  * Due to the API's limitations, results are limited to
  * recent months.
@@ -63,7 +63,7 @@ function getEvents (username, prev, page, pageLimit) {
     });
 }
 
-function getPullRequests (username) {
+function getAllPullRequests (username) {
   return getEvents(username)
     .then(function (events) {
       return events
@@ -76,29 +76,37 @@ function getPullRequests (username) {
         .map(function (event) {
           return event.payload.pull_request;
         });
-    });
-}
-
-function getMergedPullRequests (username) {
-  return getPullRequests(username)
+    })
+    // re-fetch each pull request for updated information.
     .then(function (pullRequests) {
-      /* first we want to re-fetch each pull request to have
-       * updated merge status.
-       */
       return Promise.all(pullRequests.map(function (pr) {
         return axios
           .get(pr.url)
           .then(function (res) {
             return res.data;
           });
-      }))
-      // now we can filter for requests that haven't been merged.
-      .then(function (pullRequests) {
-        return pullRequests.filter(function (pr) {
-          return pr.merged;
-        });
+      }));
+    });
+}
+
+function getPullRequests (username, state) {
+  state = state || 'all';
+
+  return getAllPullRequests(username)
+    .then(function (pullRequests) {
+      return pullRequests.filter(function (pr) {
+        switch (state) {
+          case 'merged':
+            return pr.merged;
+          case 'open':
+            return pr.state === 'open';
+          case 'closed':
+            return pr.state === 'closed';
+          default:
+            return true;
+        }
       });
     });
 }
 
-module.exports = getMergedPullRequests;
+module.exports = getPullRequests;

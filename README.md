@@ -1,18 +1,25 @@
-# git-merged-pull-requests
+# github-pull-requests
 
-A function that fetches all merged pull requests initiated by a given GitHub user.
+A JavaScript function that fetches pull requests initiated by a given GitHub user. Works on the client or server side.
 
-Usage:
+### API:
+
+`getPullRequests (username[, status)`
+
+* `username`: any valid GitHub username
+* `state` (optional): filters results - "all" (default), "opened", "closed" or "merged" (subset of "closed")
+
+### Usage:
 
 ```
-var gitMergedPullRequests = require('git-merged-pull-requests');
+var getPullRequests = require('github-pull-requests');
 
-gitMergedPullRequests('someuser')
+getPullRequests('someuser', 'merged')
   .then(pullRequests => pullRequests.map(pr => pr.url))
   .then(url => console.log(url));
 ```
 
-Prints:
+#### Prints:
 
 ```
 > Ending query early due to GitHub API fetch limits.
