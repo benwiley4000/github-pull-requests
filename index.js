@@ -9,6 +9,18 @@
 
 var axios = require('axios');
 
+function request (url, authOptions) {
+  return axios.get(url, {
+    headers: authOptions.oAuthToken ? {
+      'Authentication': 'token ' + authOptions.oAuthToken
+    } : void 0,
+    params: {
+      'client_id': authOptions.clientId || void 0,
+      'client_secret': authOptions.clientSecret || void 0
+    }
+  });
+}
+
 // https://gist.github.com/niallo/3109252
 function parseLinkHeader (header) {
   if (header.length === 0) {
@@ -42,13 +54,12 @@ function getPageLimit (header, existingLimit) {
   return lastPage || existingLimit;
 }
 
-function getEvents (username, prev, page, pageLimit) {
+function getEvents (username, authOptions, prev, page, pageLimit) {
   prev = prev || [];
   page = page || 1;
   pageLimit = pageLimit || null;
 
-  return axios
-    .get('https://api.github.com/users/' + username + '/events?page=' + page)
+  return request('https://api.github.com/users/' + username + '/events?page=' + page, authOptions)
     .then(function (res) {
       var events = res.data;
       if (!events.length) {
@@ -59,12 +70,18 @@ function getEvents (username, prev, page, pageLimit) {
         console.warn('Ending query early due to GitHub API fetch limits.');
         return prev;
       }
-      return getEvents(username, prev.concat(events), ++page, newPageLimit);
+      return getEvents(
+        username,
+        authOptions,
+        prev.concat(events),
+        ++page,
+        newPageLimit
+      );
     });
 }
 
-function getAllPullRequests (username) {
-  return getEvents(username)
+function getAllPullRequests (username, authOptions) {
+  return getEvents(username, authOptions)
     .then(function (events) {
       return events
         .filter(function (event) {
@@ -80,8 +97,7 @@ function getAllPullRequests (username) {
     // re-fetch each pull request for updated information.
     .then(function (pullRequests) {
       return Promise.all(pullRequests.map(function (pr) {
-        return axios
-          .get(pr.url)
+        return request(pr.url, authOptions)
           .then(function (res) {
             return res.data;
           });
@@ -89,10 +105,11 @@ function getAllPullRequests (username) {
     });
 }
 
-function getPullRequests (username, state) {
+function getPullRequests (username, state, authOptions) {
   state = state || 'all';
+  authOptions = authOptions || {};
 
-  return getAllPullRequests(username)
+  return getAllPullRequests(username, authOptions)
     .then(function (pullRequests) {
       return pullRequests.filter(function (pr) {
         switch (state) {
