@@ -16,7 +16,7 @@ var getPullRequests = require('github-pull-requests');
 
 getPullRequests('someuser', 'merged')
   .then(pullRequests => pullRequests.map(pr => pr.url))
-  .then(url => console.log(url));
+  .then(urls => console.log(urls));
 ```
 
 #### Prints:
