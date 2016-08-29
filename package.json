@@ -16,5 +16,8 @@
     "fetch"
   ],
   "author": "Ben Wiley",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.14.0"
+  }
 }
