@@ -92,7 +92,17 @@ function getAllPullRequests (username, authOptions) {
         })
         .map(function (event) {
           return event.payload.pull_request;
-        });
+        })
+        // filter out duplicates so our re-fetch isn't excessive.
+        .reduce(function (prev, curr) {
+          var exists = prev.some(function (pr) {
+            return pr.id === curr.id;
+          });
+          if (exists) {
+            return prev;
+          }
+          return prev.concat(curr);
+        }, []);
     })
     // re-fetch each pull request for updated information.
     .then(function (pullRequests) {
