@@ -2,6 +2,12 @@
 
 A JavaScript function that fetches pull requests initiated by a given GitHub user. Works on the client or server side.
 
+### Install
+
+```
+npm install github-pull-requests
+```
+
 ### API:
 
 `getPullRequests (username[, state[, authOptions]])`
