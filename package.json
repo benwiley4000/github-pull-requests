@@ -1,6 +1,6 @@
 {
   "name": "github-pull-requests",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Fetches recent pull requests initiated by a given GitHub user, with optional filters.",
   "main": "index.js",
   "keywords": [
