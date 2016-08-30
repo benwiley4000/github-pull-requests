@@ -1,7 +1,7 @@
 {
   "name": "github-pull-requests",
-  "version": "0.4.1",
-  "description": "Fetches all merged pull requests initiated by a given GitHub user",
+  "version": "0.4.2",
+  "description": "Fetches recent pull requests initiated by a given GitHub user, with optional filters.",
   "main": "index.js",
   "keywords": [
     "git",
