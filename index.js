@@ -86,8 +86,11 @@ function getAllPullRequests (username, authOptions) {
       return events
         .filter(function (event) {
           return (
-            event.type === 'PullRequestEvent' &&
-            event.payload.action === 'opened'
+            event.payload &&
+            event.payload.pull_request &&
+            event.payload.pull_request.user &&
+            event.payload.pull_request.user.login &&
+            event.payload.pull_request.user.login.toUpperCase() === username.toUpperCase()
           );
         })
         .map(function (event) {
