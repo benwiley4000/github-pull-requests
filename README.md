@@ -8,6 +8,7 @@ We query the GitHub API v3 for the full list of available events triggered by th
 
 ### Install
 
+[Get it from npm](https://www.npmjs.com/package/github-pull-requests)
 ```
 npm install github-pull-requests
 ```
