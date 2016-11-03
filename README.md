@@ -15,7 +15,9 @@ npm install github-pull-requests
 
 ### API:
 
-`getPullRequests (username[, state[, authOptions]])`
+```javascript
+getPullRequests (username[, state[, authOptions]])
+````
 
 * `username`: any valid GitHub username
 * `state` (optional): filters results - "all" (default), "opened", "closed" or "merged" (subset of "closed")
@@ -23,7 +25,7 @@ npm install github-pull-requests
 
 ### Usage:
 
-```
+```javascript
 var getPullRequests = require('github-pull-requests');
 
 getPullRequests('someuser', 'merged')
@@ -47,14 +49,14 @@ These parameters can be passed into `getPullRequests` as keys in an object, pass
 
 E.g.
 
-```
+```javascript
 getPullRequests('someuser', 'all', { oAuthToken: 'OAUTH-TOKEN' })
   .then(/* ... handle data */);
 ```
 
 or
 
-```
+```javascript
 getPullRequests('someuser', 'all', {
   clientId: 'CLIENT-ID',
   clientSecret: 'CLIENT-SECRET'
