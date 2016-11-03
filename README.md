@@ -2,6 +2,8 @@
 
 A JavaScript function that fetches pull requests initiated by a given GitHub user. Works on the client or server side.
 
+[![NPM](https://nodei.co/npm/github-pull-requests.png)](https://npmjs.org/package/github-pull-requests)
+
 ## How it works
 
 We query the GitHub API v3 for the full list of available events triggered by the specified user (probably won't reach back further than several months). Each time a pull request **initiated by this user** is referenced, we store that reference. Then we filter out duplicates and finally re-fetch updated information before resolving the Promise with the list of pull requests.
