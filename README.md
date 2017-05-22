@@ -4,6 +4,25 @@ A JavaScript function that fetches pull requests initiated by a given GitHub use
 
 [![NPM](https://nodei.co/npm/github-pull-requests.png)](https://npmjs.org/package/github-pull-requests)
 
+*This module will no longer be supported, as the GitHub API v4 uses GraphQL and makes a query like this accessible in one simple request. Explore the API [here](https://developer.github.com/v4/explorer/) and try this:*
+
+```graphql
+query { 
+  viewer { 
+    login
+    pullRequests(last: 10) {
+      nodes {
+        createdAt
+        closed
+        mergedAt
+        title
+        url
+      }
+    }
+  }
+}
+```
+
 ## How it works
 
 We query the GitHub API v3 for the full list of available events triggered by the specified user (probably won't reach back further than several months). Each time a pull request **initiated by this user** is referenced, we store that reference. Then we filter out duplicates and finally re-fetch updated information before resolving the Promise with the list of pull requests.
